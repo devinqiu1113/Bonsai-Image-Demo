@@ -1,7 +1,7 @@
 [project]
 name = "bonsai-image-demo"
 version = "0.1.0"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     # Vendored Node.js + npm so the frontend works without a system-level node
     # install. `uv sync` drops platform-specific wheels into .venv/bin/{node,npm}.
@@ -12,6 +12,9 @@ dependencies = [
     # around 10-20 MB/s. Gated on by HF_HUB_ENABLE_HF_TRANSFER=1 (set in
     # scripts/download_model.sh).
     "hf-transfer",
+    # JetPack torch (pre-installed, pinned to prevent uv from pulling PyPI's
+    # torch which drags in 2GB of x86_64-only nvidia-* wheels).
+    "torch>=2.5.0a0,<2.5.1",
     # macOS path: in-process MLX via prism-image-studio (pulls mflux + mlx).
     "mflux>=0.17.0 ; sys_platform == 'darwin'",
     "prism-image-studio ; sys_platform == 'darwin'",
@@ -24,6 +27,8 @@ dependencies = [
 [tool.uv]
 # diffusers>=0.38 (a backend_gpu dep) drags in safetensors prereleases.
 prerelease = "allow"
+# Only resolve for the current platform (Linux aarch64) — skip macOS/Windows
+environments = ["sys_platform == 'linux'"]
 
 # Private deps live under vendor/ — setup.sh clones them on first run.
 # Switch to public git/PyPI refs once these go public.

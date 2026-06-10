@@ -52,6 +52,10 @@ GEMLITE_PERSIST_PATH.parent.mkdir(parents=True, exist_ok=True)
 # Set both env vars BEFORE importing torch/triton via backend_gpu — Triton
 # reads TRITON_CACHE_DIR exactly once at module load.
 os.environ.setdefault("TRITON_CACHE_DIR", str(TRITON_CACHE_DIR))
+# Point Triton at the system ptxas so JIT compile can find it.
+_PTXAS = "/usr/local/cuda-12.6/bin/ptxas"
+if os.path.isfile(_PTXAS):
+    os.environ.setdefault("TRITON_PTXAS_PATH", _PTXAS)
 # backend_gpu.server's lifespan refuses to start if MFLUX_STUDIO_GPU_TOKEN is
 # unset. Populate a sentinel; auth is bypassed via dependency override below.
 os.environ.setdefault("MFLUX_STUDIO_GPU_TOKEN", "local-demo-unused")

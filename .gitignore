@@ -37,4 +37,4 @@ outputs/
 # deps cloned by setup.sh
 vendor/
 
-.claude
+.claude*.whl

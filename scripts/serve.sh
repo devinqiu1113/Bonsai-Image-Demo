@@ -218,7 +218,8 @@ if [ "$OS" = "Linux" ]; then
     # variant — they're identical bytes across variants and survive the
     # swap (ensure_backend only reloads the transformer).
     (cd "$DEMO_DIR" \
-        && env MFLUX_STUDIO_GPU_DEFAULT_BACKEND="$_default_backend" \
+        && env TRITON_PTXAS_PATH="/usr/local/cuda-12.6/bin/ptxas" \
+               MFLUX_STUDIO_GPU_DEFAULT_BACKEND="$_default_backend" \
                BONSAI_SUPPORTED_FAMILIES="$_supported_families" \
                MFLUX_STUDIO_GPU_TERNARY_TRANSFORMER_PATH="$_ternary_transformer_path" \
                MFLUX_STUDIO_GPU_BINARY_TRANSFORMER_PATH="$_binary_transformer_path" \
