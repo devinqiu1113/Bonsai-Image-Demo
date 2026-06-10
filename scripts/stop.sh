@@ -20,7 +20,7 @@ done
 sleep 1
 
 # ── 2. Kill by process name (orphaned processes not bound to ports) ──
-for PATTERN in "uvicorn.*local_backend" "next dev" "next start"; do
+for PATTERN in "uvicorn.*local_backend" "next[- ]dev" "next start" "next-server" "detached-flush"; do
     PID=$(pgrep -f "$PATTERN" 2>/dev/null || true)
     if [ -n "$PID" ]; then
         echo "  Killing stray process: $PATTERN (PID $PID)..."
